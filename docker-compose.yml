@@ -1,0 +1,8 @@
+services:
+  recetas-svc:
+    build: .
+    image: duoc/jv0101-caso07-recetas:1.0.0
+    container_name: caso07-recetas-svc
+    ports:
+      - "${PORT:-8080}:8080"
+    restart: unless-stopped
