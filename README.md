@@ -103,4 +103,6 @@ Utilizamos Gemini como herramienta de apoyo puntual a lo largo del laboratorio:
 
 Comandos y flujo de Git: Nos ayudó a resolver dudas con los comandos en la terminal, cómo sincronizar develop con main tras el hotfix y cómo manejar los reverts cuando nos equivocamos en un merge.
 
+
+
 GitHub Actions: Fue una guía para revisar la sintaxis de los archivos YAML en la carpeta .github/workflows y asegurarnos de que la integración continua corriera sin errores.
