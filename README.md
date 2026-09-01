@@ -21,3 +21,4 @@ Formato: `tipo(alcance): descripcion-corta` (Escrito en minúsculas y sin tildes
 - El autor crea el Pull Request y asigna a un integrante del equipo como revisor.
 - El revisor comenta, aprueba o solicita cambios; nunca se fusiona un PR sin haber sido revisado previa y detalladamente.
 - Antes de abrir cada PR: confirmar que los tests de `mvn test` pasan de forma exitosa y revisar detenidamente el *diff* del código.#Prueba final del trigger
+  
