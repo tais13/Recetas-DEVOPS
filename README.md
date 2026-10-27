@@ -57,6 +57,20 @@ docker compose up --build
 # http://localhost:8080
 ```
 
+## Pipeline de CI/CD, Seguridad y Orquestación (Evaluación Parcial N°2)
+
+Este proyecto cuenta con un pipeline de Integración y Entrega Continua (**CI/CD**) implementado en **GitHub Actions** (`.github/workflows/ci-cd.yml`) que automatiza el ciclo de vida del microservicio:
+
+1. **Construcción y Pruebas Unitarias (IE2):**
+   - Se ejecuta compilación y tests con Java 21 (`mvn clean package`) asegurando que el código cumple con las políticas de calidad del proyecto en cada `push` o `pull_request` a `main` o `develop`.
+2. **Seguridad y Análisis Estático (IE3):**
+   - **Dependabot (`.github/dependabot.yml`):** Monitorea y genera alertas automatizadas diariamente sobre dependencias vulnerables en el archivo `pom.xml`.
+   - **Snyk:** Ejecuta escaneos de vulnerabilidades en el código Java y sus dependencias. Si el análisis detecta un fallo crítico o las pruebas fallan, se bloquea la etapa de despliegue garantizando la gobernanza.
+3. **Contenerización y Despliegue Automático Simulado (IE1, IE4):**
+   - Se genera una imagen optimizada de Docker utilizando un `Dockerfile` multietapa (*Multi-stage build* con Java 21).
+4. **Orquestación de Contenedores (IE5):**
+   - La aplicación es desplegada y orquestada en un entorno simulado mediante **Docker Compose** (`docker compose up -d`), permitiendo levantar el servicio y asegurar su operabilidad y trazabilidad desde el desarrollo hasta la producción.
+
 ## Cómo ejecutar las pruebas
 
 ```bash
