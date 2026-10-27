@@ -1,0 +1,45 @@
+name: CI/CD Pipeline - Recetas DevOps
+
+on:
+  push:
+    branches: [ "main", "master", "develop" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  # IE2: Pruebas automatizadas (Unit Tests con Maven)
+  build-and-test:
+    name: Compilación y Pruebas Unitarias
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Ejecutar Pruebas Unitarias
+        run: mvn clean test
+
+  # IE4 e IE5: Construcción y Despliegue Simulado
+  docker-build-deploy:
+    name: Construcción y Despliegue
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Construir Imagen Docker (IE1)
+        run: docker build -t recetas-devops:latest .
+
+      - name: Despliegue con Docker Compose (IE5)
+        run: |
+          docker-compose up -d
+          docker-compose ps

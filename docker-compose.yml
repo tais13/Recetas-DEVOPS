@@ -1,8 +1,13 @@
+version: '3.8'
+
 services:
-  recetas-svc:
-    build: .
-    image: duoc/jv0101-caso07-recetas:1.0.0
-    container_name: caso07-recetas-svc
+  recetas-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: recetas-microservicio
     ports:
-      - "${PORT:-8080}:8080"
-    restart: unless-stopped
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: always
