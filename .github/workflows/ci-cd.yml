@@ -7,7 +7,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-  # IE2: Pruebas automatizadas (Unit Tests con Maven)
+  # IE2: Pruebas automatizadas y Compilación (Java 17)
   build-and-test:
     name: Compilación y Pruebas Unitarias
     runs-on: ubuntu-latest
@@ -16,19 +16,26 @@ jobs:
       - name: Checkout del código
         uses: actions/checkout@v3
 
-      - name: Configurar JDK 17
+      - name: Configurar Java JDK
         uses: actions/setup-java@v3
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
 
-      - name: Ejecutar Pruebas Unitarias
+      - name: Compilar y Ejecutar Pruebas Unitarias
         run: mvn clean test
 
-  # IE4 e IE5: Construcción y Despliegue Simulado
+      # IE3: Análisis de Seguridad con Snyk (si no hay Token, continua sin bloquear la compilación básica)
+      - name: Escaneo de Seguridad (Snyk)
+        uses: snyk/actions/maven@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  # IE4 e IE5: Construcción de Contenedor y Despliegue Simulado
   docker-build-deploy:
-    name: Construcción y Despliegue
+    name: Construcción de Imagen y Despliegue Simulado
     needs: build-and-test
     runs-on: ubuntu-latest
 
@@ -39,7 +46,7 @@ jobs:
       - name: Construir Imagen Docker (IE1)
         run: docker build -t recetas-devops:latest .
 
-      - name: Despliegue con Docker Compose (IE5)
+      - name: Levantar servicio con Docker Compose (IE5)
         run: |
           docker-compose up -d
           docker-compose ps
